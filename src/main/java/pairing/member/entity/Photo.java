@@ -1,0 +1,28 @@
+package pairing.member.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import pairing.member.converter.UrlListConverter;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+public class Photo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long photoId;
+
+    @Convert(converter = UrlListConverter.class)
+    private List<URL> photo = new ArrayList<>();
+
+    @OneToOne
+    private Member member;
+}
