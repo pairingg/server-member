@@ -21,8 +21,14 @@ public class Photo {
     private long photoId;
 
     @Convert(converter = UrlListConverter.class)
+    @Builder.Default
     private List<URL> photo = new ArrayList<>();
 
     @OneToOne
     private Member member;
+
+    public Photo(Member save, List<URL> photo) {
+        this.member = save;
+        this.photo = photo;
+    }
 }

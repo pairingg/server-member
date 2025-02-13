@@ -3,15 +3,18 @@ package pairing.member.staticData.init;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pairing.member.staticData.entity.HobbyList;
 import pairing.member.staticData.repository.HobbyListRepository;
 
 @Component
 @RequiredArgsConstructor
 public class HobbyInitializer implements CommandLineRunner {
+
     private final HobbyListRepository hobbyListRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         if (hobbyListRepository.count() == 0) {
             hobbyListRepository.save(new HobbyList("운동"));
