@@ -55,4 +55,14 @@ public class MemberController {
         return memberService.getOtherProfile(userId);
     }
 
+    @PutMapping("/profile")
+    public ResponseEntity<String> putProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                 @RequestBody ProfileDTO profileDTO) {
+        return ResponseEntity.ok(memberService.postProfile(profileDTO, customUserDetails.getMember().getEmail()));
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<String> deleteProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ResponseEntity.ok(memberService.deleteProfile(customUserDetails.getMember().getEmail()));
+    }
 }

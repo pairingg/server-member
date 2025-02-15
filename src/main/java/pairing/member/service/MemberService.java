@@ -31,7 +31,7 @@ public class MemberService {
         photoRepository.save(photo);
 
         Member detail = byEmail.createDetail(hobby, photo);
-        memberRepository.save(detail.addInfo(profileDTO));
+        memberRepository.save(detail);
         return "success";
     }
 
@@ -50,6 +50,12 @@ public class MemberService {
                 .orElseThrow(()->new IllegalArgumentException("Invalid member"));
         calHeart(byId, 1);
         return getProfile(byId.getEmail());
+    }
+
+    public String deleteProfile(String email){
+        Member byEmail = findByEmail(email);
+        memberRepository.delete(byEmail);
+        return "success";
     }
 
     @Async
