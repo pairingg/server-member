@@ -3,6 +3,7 @@ package pairing.member.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pairing.member.converter.StringListConverter;
 import pairing.member.staticData.entity.HobbyList;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Builder
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Hobby {
@@ -22,13 +24,13 @@ public class Hobby {
 
     @Convert(converter = StringListConverter.class)
     @Builder.Default
-    private List<HobbyList> hobby = new ArrayList<>();
+    private List<String> hobby = new ArrayList<>();
 
-    @ManyToOne
+    @OneToOne
     private Member member;
 
-    public Hobby(Member member, List<HobbyList> hobbyLists) {
+    public Hobby(Member member, List<String> hobby) {
         this.member = member;
-        this.hobby = hobbyLists;
+        this.hobby = hobby;
     }
 }

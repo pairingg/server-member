@@ -3,7 +3,9 @@ package pairing.member.jwt;
 
 import java.util.Date;
 import javax.crypto.SecretKey;
+
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -31,18 +33,34 @@ public class JwtUtils {
         return Jwts.builder()
                 .subject(email)
                 .expiration(expirationDate)
-                .claim("userId",memberId)
+                .claim("userId", memberId)
                 .signWith(key)
                 .compact();
     }
 
     // JWT에서 정보 가져오기 -> HEADER, PAYLOAD, VERIFY SIGNATURE
-    public String parseToken(String token){
+    public String parseToken(String token) {
         Claims payload = (Claims) Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parse(token)
                 .getPayload();
         return payload.getSubject();
+    }
+
+    // 토큰 검증 메서드
+    public boolean validateToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            return true;
+        } catch (ExpiredJwtException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
