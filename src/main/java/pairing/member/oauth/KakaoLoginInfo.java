@@ -90,7 +90,6 @@ public class KakaoLoginInfo implements OauthLoginInfo {
     public Member getUserInfo(ResponseEntity<String> userInfoRes) {
         try {
             JsonNode jsonNode = objectMapper.readTree(userInfoRes.getBody());
-            String nickname = jsonNode.get("kakao_account").get("profile").get("nickname").asText();
             String email = jsonNode.get("kakao_account").get("email").asText();
             log.info("JsonNode is {}", jsonNode);
             return Member.builder().email(email)
