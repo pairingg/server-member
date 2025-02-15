@@ -10,12 +10,10 @@ import org.springframework.data.annotation.CreatedDate;
 import pairing.member.common.Drinking;
 import pairing.member.common.Gender;
 import pairing.member.common.Smoking;
-import pairing.member.dto.requset.ProfileCreate;
+import pairing.member.dto.ProfileDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Builder
@@ -71,17 +69,16 @@ public class Member {
     @OneToOne
     private Photo photo;
 
-    public Member addInfo(ProfileCreate profileCreate) {
-        this.name = profileCreate.getName();
-        this.age = profileCreate.getAge();
-        this.gender = profileCreate.getGender();
-        this.birth = profileCreate.getBirth();
-        this.mbti = profileCreate.getMbti();
-        this.drink = profileCreate.getDrink();
-        this.smoking = profileCreate.getSmoking();
-        this.city = profileCreate.getCity();
-        this.district = profileCreate.getDistrict();
-        enroll();
+    public Member addInfo(ProfileDTO profileDTO) {
+        this.name = profileDTO.getName();
+        this.age = profileDTO.getAge();
+        this.gender = profileDTO.getGender();
+        this.birth = profileDTO.getBirth();
+        this.mbti = profileDTO.getMbti();
+        this.drink = profileDTO.getDrink();
+        this.smoking = profileDTO.getSmoking();
+        this.city = profileDTO.getCity();
+        this.district = profileDTO.getDistrict();
         return this;
     }
 
@@ -89,6 +86,10 @@ public class Member {
         this.hobby = hobby;
         this.photo = photo;
         return this;
+    }
+
+    public void calHeart(long score){
+        this.heart += score;
     }
 
     private void enroll() {
