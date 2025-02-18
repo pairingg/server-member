@@ -1,10 +1,12 @@
 package pairing.member.controller;
 
+import com.amazonaws.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import pairing.member.config.S3Config;
 import pairing.member.dto.ProfileDTO;
 import pairing.member.dto.response.DrinkAndSmokeResponse;
 import pairing.member.entity.CustomUserDetails;
@@ -13,6 +15,7 @@ import pairing.member.staticData.entity.HobbyList;
 import pairing.member.staticData.repository.HobbyListRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/member")
@@ -21,10 +24,10 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-
     private final HobbyListRepository hobbyListRepository;
+    private final S3Config s3Config;
 
-//    @GetMapping("/profile/region")
+    //    @GetMapping("/profile/region")
 //    public Member profile(@RequestBody ProfileCreate profileCreate) {
 //
 //    }
@@ -64,5 +67,11 @@ public class MemberController {
     @DeleteMapping()
     public ResponseEntity<String> deleteProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return ResponseEntity.ok(memberService.deleteProfile(customUserDetails.getMember().getEmail()));
+    }
+
+    @GetMapping("presigned-url")
+    public Map<String, String> getPresignedUrl(@RequestParam String fileName) {
+        String presignedUrl = s3Config.generatePresignedUrl(fileName, HttpMethod.PUT, 600000);
+        return Map.of("url", presignedUrl);
     }
 }
