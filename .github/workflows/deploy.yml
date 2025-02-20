@@ -60,7 +60,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}   # Bastion Host에 접속할 SSH 개인키
           script: |
             echo "Connecting to Private Compute via Bastion..."
-            ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.PRIVATE_COMPUTE_IP }} << 'EOF'
+            ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PRIVATE_COMPUTE_IP }} << 'EOF'
               echo "Pulling latest Docker image..."
               docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
 
