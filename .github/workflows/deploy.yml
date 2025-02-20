@@ -60,15 +60,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}   # Bastion Host에 접속할 SSH 개인키
           script: |
             echo "Connecting to Private Compute via Bastion..."
-            ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PRIVATE_COMPUTE_IP }} << 'EOF'
-              echo "Pulling latest Docker image..."
+            ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.PRIVATE_COMPUTE_IP }} << 'EOF'
               docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
-
-              echo "Stopping and removing old container..."
               docker stop ${{ secrets.DOCKER_REPO }} || true
               docker rm ${{ secrets.DOCKER_REPO }} || true
 
-              echo "Starting new container..."
               docker run -d --name ${{ secrets.DOCKER_REPO }} \
                 --restart always \
                 -p 8081:8081 \
