@@ -33,7 +33,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .subject(email)
                 .expiration(expirationDate)
-                .claim("userId", memberId)
+                .claim("memberId", memberId)
                 .signWith(key)
                 .compact();
     }

@@ -35,6 +35,9 @@ public class TestController {
     @Value("${security.oauth2.client.registration.naver.authorize-uri}")
     private String getNaver_client_id; // code
 
+    @Value("${security.oauth2.client.registration.kakao.authorize-uri}")
+    private String authorize_uri_kakao;
+
     private final MemberService memberService;
 
     // 로그인 한다고 하면
@@ -66,6 +69,21 @@ public class TestController {
 
         URI uri = UriComponentsBuilder
                 .fromUriString(getNaver_client_id)
+                .queryParams(params)
+                .encode().build().toUri();
+        return ResponseEntity.status(302).location(uri).build();
+    }
+
+    @GetMapping("/oauth/login/kakao")
+    public ResponseEntity<String> kakaoLogin() {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.set("response_type", "code");
+        params.set("client_id", kakao_client_id);
+        params.set("redirect_uri", kakao_redirect_uri);
+//        params.set("state", "STATE_STRING");
+
+        URI uri = UriComponentsBuilder
+                .fromUriString(authorize_uri_kakao)
                 .queryParams(params)
                 .encode().build().toUri();
         return ResponseEntity.status(302).location(uri).build();
