@@ -60,4 +60,15 @@ jobs:
             docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPO}}:latest
             docker stop ${{secrets.DOCKER_REPO}} || true
             docker rm ${{secrets.DOCKER_REPO}} || true
-            docker run -d --name ${{secrets.DOCKER_REPO}} -p 8080:8080 ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPO}}:latest
+            docker run -d --name ${{secrets.DOCKER_REPO}} -p 8081:8081 ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPO}}:latest
+
+      - name: Connect to Private Compute and Pull Docker Image
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PRIVATE_COMPUTE_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            export HTTP_PROXY=http://${{ secrets.HOST }}:3128/
+            export HTTPS_PROXY=http://${{ secrets.HOST }}:3128/
+            docker pull alpine
