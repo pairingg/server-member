@@ -65,5 +65,6 @@ jobs:
             docker rm ${{secrets.DOCKER_REPO}} || true
             docker run -d --name ${{ secrets.DOCKER_REPO }} \
                 --restart always \
+                --network mysql-network
                 -p 8081:8081 \
                 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
