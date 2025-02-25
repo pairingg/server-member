@@ -20,7 +20,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
-//        http.cors(c-> );
+        http.cors(AbstractHttpConfigurer::disable);
         http.userDetailsService(customUserDetailService);
         http.addFilterBefore(jwtFilter,
                 UsernamePasswordAuthenticationFilter.class);
