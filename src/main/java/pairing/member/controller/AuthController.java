@@ -20,10 +20,7 @@ public class AuthController {
 
     @PostMapping("/oauth/login")
     public OauthResponse login(@RequestBody OauthRequest request, HttpServletResponse response) {
-        System.out.println(request.toString());
         OauthResponse oauthResponse = authService.oauthLogin(request, response);
-        System.out.println(oauthResponse.toString());
-        System.out.println(oauthResponse);
         return oauthResponse;
     }
 

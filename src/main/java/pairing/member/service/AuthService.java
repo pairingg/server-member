@@ -32,10 +32,15 @@ public class AuthService {
          *  없으면 db에 저장 통과
          *  토큰발급
          */
+        System.out.println("11111111111");
         OauthLoginInfo oauthLoginInfo = findOAuth2LoginType(request.type());
+        System.out.println("222222222222");
         ResponseEntity<String> accessTokenRes = oauthLoginInfo.requestAccessToken(request.code());
+        System.out.println("333333333333");
         OauthTokenDto accessTokenDto = oauthLoginInfo.getAccessToken(accessTokenRes);
+        System.out.println("4444444444444");
         ResponseEntity<String> stringResponseEntity = oauthLoginInfo.requestUserInfo(accessTokenDto);
+        System.out.println("555555555555");
         System.out.println(stringResponseEntity.getBody());
         Member userInfo = oauthLoginInfo.getUserInfo(stringResponseEntity);
         System.out.println(userInfo);
